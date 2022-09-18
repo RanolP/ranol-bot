@@ -8,7 +8,7 @@ async fn main() -> miette::Result<()> {
     dotenv().ok();
 
     let reqores_client = SurfClient::new();
-    let token = ""; // var("TELEGRAM_BOT_TOKEN").into_diagnostic()?;
+    let token = var("TELEGRAM_BOT_TOKEN").into_diagnostic()?;
     let telegram_client = TelegramClient::new(&token);
 
     let updates = reqores_client
