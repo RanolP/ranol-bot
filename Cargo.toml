@@ -6,4 +6,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dotenvy = "0.15.3"
+miette = { version = "5.3.0", features = ["fancy"] }
+tokio = { version = "1.21.1", features = ["full"] }
+
 kal = { version = "0.3.0", features = ["lex"] }
+
+bot-any = { path = "./bot-any" }
+bot-any-telegram = { path = "./bot-any-telegram" }
+
+reqores = "0.1.7"
+reqores-client-surf = "0.1.2"
