@@ -108,9 +108,9 @@ dependencies = [
 
 [[package]]
 name = "apid-telegram-bot"
-version = "0.2.1"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d6abceab396033b9f35ba05248f5ed3b102260ea2d10eafad62c4cc37c792eab"
+checksum = "b271359c5c2c2082d7f29457bcd9ae0be6a4dab0bbff50c557d5d074870ffb46"
 dependencies = [
  "apid",
  "serde",
@@ -210,6 +210,27 @@ dependencies = [
  "pin-utils",
  "slab",
  "wasm-bindgen-futures",
+]
+
+[[package]]
+name = "async-stream"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dad5c83079eae9969be7fadefe640a1c566901f05ff91ab221de4b6f68d9507e"
+dependencies = [
+ "async-stream-impl",
+ "futures-core",
+]
+
+[[package]]
+name = "async-stream-impl"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "10f203db73a71dfa2fb6dd22763990fa26f3d2625a6da2da900d23b87d26be27"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
@@ -946,18 +967,18 @@ dependencies = [
 
 [[package]]
 name = "kal"
-version = "0.3.0"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c74804e840eba3466cb447befabb3f309d85cc83ef1536b6055841f7bbeb65a4"
+checksum = "008bdba47f340578c9ce4d39b31ececb3cdc9eb76ba677826ec43fb0faec2436"
 dependencies = [
  "kal-derive",
 ]
 
 [[package]]
 name = "kal-derive"
-version = "0.3.1"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "579c896bc1d6a56111b8dc63f4c9c88ebbf5aaff1d9a80da043ef2a262110c8d"
+checksum = "2bb4698d32fd4713d847bb855cc8369c7f1ba45e0af4232d45353db399096df9"
 dependencies = [
  "darling 0.14.1",
  "quote",
@@ -981,9 +1002,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
-version = "0.2.132"
+version = "0.2.133"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
+checksum = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
 
 [[package]]
 name = "libnghttp2-sys"
@@ -1360,6 +1381,7 @@ dependencies = [
 name = "ranol-bot"
 version = "0.1.0"
 dependencies = [
+ "async-stream",
  "bot-any",
  "bot-any-telegram",
  "dotenvy",
@@ -1774,9 +1796,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.99"
+version = "1.0.100"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "58dbef6ec655055e20b86b15a8cc6d439cca19b667537ac6a1369572d151ab13"
+checksum = "52205623b1b0f064a4e71182c3b18ae902267282930c6d5462c91b859668426e"
 dependencies = [
  "proc-macro2",
  "quote",

@@ -50,8 +50,8 @@ impl<T> From<RawTelegramApiResult<T>> for Result<T, TelegramApiError> {
 
 #[derive(Deserialize)]
 pub struct TelegramApiError {
-    description: String,
-    error_code: i32,
+    pub description: String,
+    pub error_code: i32,
     // TODO:
     // parameters: Option<ResponseParameters>,
 }
@@ -88,6 +88,6 @@ where
         let resp: RawTelegramApiResult<T::Response> =
             serde_json::from_slice(response.body()).map_err(|e| e.to_string())?;
         let resp: Result<_, _> = resp.into();
-        resp.map_err(|e| e.description)
+        resp.map_err(|e| format!("{}: {}", e.error_code, e.description))
     }
 }
