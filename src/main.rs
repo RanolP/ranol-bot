@@ -1,4 +1,4 @@
-use std::{cmp, time::Duration};
+use std::{cmp, env, time::Duration};
 
 use bot_any_telegram::{
     api::TelegramClient,
@@ -19,7 +19,8 @@ async fn main() -> miette::Result<()> {
     dotenv().ok();
 
     let reqores_client = SurfClient::new();
-    let token = var("TELEGRAM_BOT_TOKEN").into_diagnostic()?;
+    let token =
+        env::var("TELEGRAM_BOT_TOKEN").map_err(|e| miette::miette!("{}: TELEGRAM_BOT_TOKEN", e))?;
     let telegram_client = TelegramClient::new(&token);
 
     let mut offset = None;
@@ -48,13 +49,13 @@ async fn main() -> miette::Result<()> {
                     MessageContent::Text { text, entities } => {
                         let lexer = CommandLexer::new(&text);
                         let fragments: Result<Vec<_>, _> = transformer.transform(lexer).collect();
-                        let fragments = fragments.map_err(|e| miette::miette!("{}", e))?;
-
-                        let command =
-                            RootCommand::parse(&fragments).map_err(|e| miette::miette!("{}", e))?;
+                        let command = fragments
+                            .as_ref()
+                            .map_err(CommandParseError::from)
+                            .and_then(|fragments| RootCommand::parse(fragments));
 
                         match command {
-                            RootCommand::Ping(ping) => {
+                            Ok(RootCommand::Ping(ping)) => {
                                 let message_write = ping.execute().await;
                                 reqores_client
                                     .call(
@@ -66,6 +67,7 @@ async fn main() -> miette::Result<()> {
                                     .await
                                     .map_err(|e| miette::miette!("{}", e))?;
                             }
+                            _ => {}
                         }
                     }
                     content => {
