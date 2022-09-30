@@ -1,0 +1,6 @@
+target/
+.env/
+.github/
+LICENSE
+README.md
+Dockerfile

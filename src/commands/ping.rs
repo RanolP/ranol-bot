@@ -1,8 +1,8 @@
 use bot_any::message::MessageWrite;
 use kal::{lex::TransformHintProvider, Command};
 
+/// Pong!
 #[derive(Command, TransformHintProvider)]
-#[command(name = "ping", description = "Pong!")]
 pub struct Ping {}
 
 impl Ping {

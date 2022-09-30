@@ -1,15 +1,15 @@
-FROM clux/muslrust:1.63.0-stable AS chef
+FROM rust:alpine AS chef
+
+RUN rustup target add x86_64-unknown-linux-musl
+RUN apk update
+RUN apk add --no-cache openssl-dev musl-dev
 
 WORKDIR /app
 RUN cargo install cargo-chef
 
 FROM chef AS planner
 
-COPY ./bot-any ./bot-any
-COPY ./bot-any-telegram ./bot-any-telegram
-COPY ./src ./src
-COPY ./Cargo.toml ./Cargo.toml
-COPY ./Cargo.lock ./Cargo.lock
+COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
 FROM chef AS builder
@@ -17,17 +17,13 @@ FROM chef AS builder
 COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release --recipe-path recipe.json
 
-COPY ./bot-any ./bot-any
-COPY ./bot-any-telegram ./bot-any-telegram
-COPY ./src ./src
-COPY ./Cargo.toml ./Cargo.toml
-COPY ./Cargo.lock ./Cargo.lock
+COPY . .
 RUN cargo build --release
 
-FROM alpine:3.16.2
+FROM alpine:latest
 
 COPY --from=builder \
-    /app/target/x86_64-unknown-linux-musl/release/ranol-bot \
+    /app/target/release/ranol-bot \
     /usr/bin/ranol-bot
 
 ENTRYPOINT [ "/usr/bin/ranol-bot" ]
