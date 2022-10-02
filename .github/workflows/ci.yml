@@ -40,8 +40,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
-          tags: |
-            ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:${{ steps.docker_info.outputs.YMD_TAG }},
-            ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:latest
+          tags: ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:latest,ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:${{ steps.docker_info.outputs.YMD_TAG }}
+
           cache-from: type=gha
           cache-to: type=gha,mode=max
