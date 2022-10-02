@@ -34,7 +34,7 @@ jobs:
       - name: Make informations
         id: docker_info
         run: |
-          echo ::set-output owner=echo "$a" | tr '[:upper:]' '[:lower:]'
+          echo ::set-output owner=`echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]'`
           echo ::set-output ymd_tag=`date +"%Y.%m.%d-${{ github.sha }}"`
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
