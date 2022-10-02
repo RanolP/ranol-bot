@@ -8,12 +8,13 @@ on:
     branches:
       - main
 
+permissions:
+  packages: write
+
 jobs:
   docker:
     needs: []
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
