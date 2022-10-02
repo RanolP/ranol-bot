@@ -35,7 +35,7 @@ jobs:
         id: docker_info
         run: |
           echo ::set-output name=OWNER::`echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]'`
-          echo ::set-output name=YMD_TAG::`date +"%Y.%m.%d-${{ github.sha }}"`
+          echo ::set-output name=YMD_TAG::`date +"%Y.%m.%d-\`git rev-parse --short ${{ github.sha }}\`"`
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
         with:
