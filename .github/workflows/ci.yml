@@ -41,5 +41,5 @@ jobs:
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
           tags: |
-            ghcr.io/${{ steps.docker_info.owner }}/ranol-bot:latest
-            ghcr.io/${{ steps.docker_info.owner }}/ranol-bot:${{ steps.docker_info.outputs.ymd_tag }}
+            ghcr.io/${{ steps.docker_info.outputs.owner }}/ranol-bot:latest
+            ghcr.io/${{ steps.docker_info.outputs.owner }}/ranol-bot:${{ steps.docker_info.outputs.ymd_tag }}
