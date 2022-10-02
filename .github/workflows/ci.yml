@@ -31,14 +31,14 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make yyyy.mm-sha tag
-        id: make_yyyy_mm_sha_tag
+      - name: Make yyyy.mm.dd-sha tag
+        id: make_yyyy_mm_dd_sha_tag
         run: |
-          echo ::set-output tag=ghcr.io/ranolp/ranol-bot:`date +"%Y.%m-${{ github.sha }}"`
+          echo ::set-output tag=`date +"%Y.%m.%d-${{ github.sha }}"`
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
           tags: |
-            ghcr.io/ranolp/ranol-bot:latest
-            ${{ steps.make_yyyy_mm_sha_tag.outputs.tag }}
+            ghcr.io/${{ github.repository_owner }}/ranol-bot:latest
+            ghcr.io/${{ github.repository_owner }}/ranol-bot:${{ steps.make_yyyy_mm_dd_sha_tag.outputs.tag }}
