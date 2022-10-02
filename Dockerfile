@@ -1,8 +1,7 @@
-FROM rust:alpine AS chef
+FROM --platform=${TARGETARCH} rust:alpine AS chef
 
-RUN rustup target add x86_64-unknown-linux-musl
 RUN apk update
-RUN apk add --no-cache openssl-dev musl-dev
+RUN apk add --no-cache musl-dev
 
 WORKDIR /app
 RUN cargo install cargo-chef
