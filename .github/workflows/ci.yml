@@ -16,6 +16,14 @@ jobs:
     needs: []
     runs-on: ubuntu-latest
     steps:
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            {{date 'YYYY.MM.DD'}}-{{sha}}
+            latest
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
       - name: Setup Docker Buildx
@@ -40,7 +48,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
-          tags: ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:latest,ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:${{ steps.docker_info.outputs.YMD_TAG }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
           cache-from: type=gha
           cache-to: type=gha,mode=max
