@@ -31,14 +31,15 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make yyyy.mm.dd-sha tag
-        id: make_yyyy_mm_dd_sha_tag
+      - name: Make informations
+        id: docker_info
         run: |
-          echo ::set-output tag=`date +"%Y.%m.%d-${{ github.sha }}"`
+          echo ::set-output owner=echo "$a" | tr '[:upper:]' '[:lower:]'
+          echo ::set-output ymd_tag=`date +"%Y.%m.%d-${{ github.sha }}"`
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/ranol-bot:latest
-            ghcr.io/${{ github.repository_owner }}/ranol-bot:${{ steps.make_yyyy_mm_dd_sha_tag.outputs.tag }}
+            ghcr.io/${{ steps.docker_info.owner }}/ranol-bot:latest
+            ghcr.io/${{ steps.docker_info.owner }}/ranol-bot:${{ steps.docker_info.outputs.ymd_tag }}
