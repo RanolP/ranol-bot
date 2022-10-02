@@ -43,5 +43,5 @@ jobs:
           tags: |
             ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:${{ steps.docker_info.outputs.YMD_TAG }},
             ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:latest
-          cache-from: type=registry,ref=${{ steps.docker_info.outputs.OWNER }}/ranol-bot:buildcache
-          cache-to: type=registry,ref=${{ steps.docker_info.outputs.OWNER }}/ranol-bot:buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
