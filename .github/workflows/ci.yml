@@ -38,18 +38,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Make informations
-        id: docker_info
-        run: |
-          echo ::set-output name=OWNER::`echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]'`
-          echo ::set-output name=YMD_TAG::`date +"%Y.%m.%d-\`git rev-parse --short ${{ github.sha }}\`"`
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
           cache-from: type=gha
           cache-to: type=gha,mode=max
