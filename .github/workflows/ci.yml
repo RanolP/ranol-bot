@@ -36,6 +36,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
-          tags:
-            - 'ranolp/ranol-bot:latest'
-            - ${{ steps.make_yyyy_mm_sha_tag.outputs.tag }}
+          tags: ranolp/ranol-bot:latest,${{ steps.make_yyyy_mm_sha_tag.outputs.tag }}
