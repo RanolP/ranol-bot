@@ -34,12 +34,12 @@ jobs:
       - name: Make informations
         id: docker_info
         run: |
-          echo ::set-output owner=`echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]'`
-          echo ::set-output ymd_tag=`date +"%Y.%m.%d-${{ github.sha }}"`
+          echo ::set-output name=OWNER::`echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]'`
+          echo ::set-output name=YMD_TAG::`date +"%Y.%m.%d-${{ github.sha }}"`
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
         with:
           push: ${{ !github.event.pull_request.head.repo.fork }}
           tags: |
-            ghcr.io/${{ steps.docker_info.outputs.owner }}/ranol-bot:${{ steps.docker_info.outputs.ymd_tag }},
-            ghcr.io/${{ steps.docker_info.outputs.owner }}/ranol-bot:latest
+            ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:${{ steps.docker_info.outputs.YMD_TAG }},
+            ghcr.io/${{ steps.docker_info.outputs.OWNER }}/ranol-bot:latest
