@@ -41,6 +41,7 @@ jobs:
       - name: Build (and optionally push) the Docker image
         uses: docker/build-push-action@v3
         with:
+          platforms: linux/amd64,linux/arm/v7
           push: ${{ !github.event.pull_request.head.repo.fork }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
