@@ -3,9 +3,12 @@ use apid_telegram_bot::{
     types::{ChatId, Message, Update},
 };
 use bot_any::message::{MessageEntity, MessageWrite};
+use futures_lite::Future;
 use reqores::ClientRequest;
 
 use crate::bridge::telegram_client_request::TelegramClientRequest;
+
+use super::polling::LongPolling;
 
 pub struct TelegramClient<'a> {
     token: &'a str,
@@ -16,7 +19,16 @@ impl<'a> TelegramClient<'a> {
         Self { token }
     }
 
-    pub fn get_updates(&self, offset: Option<i32>) -> impl ClientRequest<Response = Vec<Update>> {
+    pub fn long_polling<F, Fut, Error>(&'a self, call: F) -> LongPolling<'a, F, Fut, Error>
+    where
+        F: Fn(TelegramClientRequest<GetUpdates>) -> Fut,
+        F: Unpin,
+        Fut: Future<Output = Result<Vec<Update>, Error>>,
+    {
+        LongPolling::new(call, self)
+    }
+
+    pub fn get_updates(&self, offset: Option<i32>) -> TelegramClientRequest<GetUpdates> {
         TelegramClientRequest {
             url: format!("https://api.telegram.org/bot{}/getUpdates", self.token),
             call: GetUpdates {
