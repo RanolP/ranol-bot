@@ -4,7 +4,7 @@ RUN apk update
 RUN apk add --no-cache musl-dev
 
 WORKDIR /app
-RUN cargo install cargo-chef@0.1.46
+RUN cargo install cargo-chef@0.1.46 --locked
 
 FROM chef AS planner
 
