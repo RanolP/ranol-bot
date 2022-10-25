@@ -1,4 +1,4 @@
-FROM --platform=${TARGETARCH} rust:alpine AS chef
+FROM --platform=${TARGETARCH} rust:1.64.0-alpine3.16 AS chef
 
 RUN apk update
 RUN apk add --no-cache musl-dev
@@ -19,7 +19,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 RUN cargo build --release
 
-FROM alpine:latest
+FROM alpine:3.16.2
 
 COPY --from=builder \
     /app/target/release/ranol-bot \
