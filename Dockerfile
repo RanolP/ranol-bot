@@ -19,7 +19,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 RUN cargo build --release
 
-FROM alpine:3.16.2
+FROM --platform=${TARGETARCH} alpine:3.16.2
 
 COPY --from=builder \
     /app/target/release/ranol-bot \
