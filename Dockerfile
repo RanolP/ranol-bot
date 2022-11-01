@@ -1,10 +1,10 @@
-FROM --platform=${TARGETARCH} rust:1.64.0-alpine3.16 AS chef
+FROM --platform=${TARGETARCH} rustlang/rust:nightly-alpine3.15 AS chef
 
 RUN apk update
 RUN apk add --no-cache musl-dev
 
 WORKDIR /app
-RUN cargo install cargo-chef@0.1.46 --locked -j 1
+RUN cargo install cargo-chef@0.1.46 --locked -Z sparse-registry
 
 FROM chef AS planner
 
@@ -17,9 +17,9 @@ COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release --recipe-path recipe.json
 
 COPY . .
-RUN cargo build --release -j 1
+RUN cargo build --release -Z sparse-registry
 
-FROM --platform=${TARGETARCH} alpine:3.16.2
+FROM --platform=${TARGETARCH} alpine:3.15
 
 COPY --from=builder \
     /app/target/release/ranol-bot \
