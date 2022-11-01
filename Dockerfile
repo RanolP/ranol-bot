@@ -4,7 +4,7 @@ RUN apk update
 RUN apk add --no-cache musl-dev
 
 WORKDIR /app
-RUN cargo install cargo-chef@0.1.46 --locked
+RUN cargo install cargo-chef@0.1.46 --locked -j 1
 
 FROM chef AS planner
 
@@ -17,7 +17,7 @@ COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release --recipe-path recipe.json
 
 COPY . .
-RUN cargo build --release
+RUN cargo build --release -j 1
 
 FROM --platform=${TARGETARCH} alpine:3.16.2
 
