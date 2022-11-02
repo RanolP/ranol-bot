@@ -3,7 +3,7 @@ use apid_telegram_bot::{
     types::{ChatId, Message, Update},
 };
 use bot_any::message::{MessageEntity, MessageWrite};
-use futures_lite::Future;
+use std::future::Future;
 use reqores::ClientRequest;
 
 use crate::bridge::telegram_client_request::TelegramClientRequest;

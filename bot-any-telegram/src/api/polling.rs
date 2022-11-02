@@ -4,7 +4,8 @@ use apid_telegram_bot::{
     calls::GetUpdates,
     types::{Update, UpdateEvent},
 };
-use futures_lite::{Future, Stream};
+use futures_lite::Stream;
+use std::future::Future;
 
 use crate::bridge::telegram_client_request::TelegramClientRequest;
 
