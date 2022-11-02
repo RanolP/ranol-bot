@@ -16,7 +16,7 @@ jobs:
     needs: []
     runs-on: ubuntu-latest
     env:
-      PLATFORMS: linux/amd64${{ github.event_name != 'pull_request' && ', linux/arm64' || '' }}
+      PLATFORMS: linux/amd64${{ github.event_name != 'pull_request' && ',linux/arm64' || '' }}
     steps:
       - name: Docker meta
         id: meta
