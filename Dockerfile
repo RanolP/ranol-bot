@@ -1,4 +1,4 @@
-FROM --platform=${TARGETARCH} rustlang/rust:nightly-alpine3.15 AS chef
+FROM --platform=${TARGETARCH} instrumentisto/rust:nightly-alpine3.15-2022-10-31 AS chef
 
 RUN apk update
 RUN apk add --no-cache musl-dev
