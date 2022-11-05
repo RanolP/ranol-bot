@@ -14,4 +14,4 @@ serde_json = "1"
 reqores = "0.1"
 
 bot-any = { path = "../bot-any" }
-futures-lite = "1.12"
+futures-lite = "1"
