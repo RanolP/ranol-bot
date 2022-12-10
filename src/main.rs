@@ -21,6 +21,16 @@ async fn main() {
     dotenv().ok();
     tracing_subscriber::fmt::init();
 
+    let token = env::var("TELEGRAM_BOT_TOKEN")
+        .map_err(|e| miette::miette!("{}: TELEGRAM_BOT_TOKEN", e))
+        .unwrap_or_log();
+
+    let port: u16 = env::var("PORT")
+        .map_err(|e| miette::miette!("{}: PORT", e))
+        .unwrap_or_log()
+        .parse()
+        .unwrap_or_log();
+
     let transformer = TokenTransformer::command_group(
         |s| remove_leading("/", s).map(|s| remove_trailing("@ranol_bot", s).unwrap_or(s)),
         RootCommand::hint(),
@@ -28,9 +38,6 @@ async fn main() {
 
     let reqores_client = SurfClient::new();
     let reqores_client = &reqores_client;
-    let token = env::var("TELEGRAM_BOT_TOKEN")
-        .map_err(|e| miette::miette!("{}: TELEGRAM_BOT_TOKEN", e))
-        .unwrap_or_log();
     let telegram_client = TelegramClient::new(&token);
     let telegram_client = &telegram_client;
 
@@ -44,7 +51,7 @@ async fn main() {
     };
 
     let router = Router::new().route("/telegram", get(test));
-    let socket_addr = SocketAddr::from(([0, 0, 0, 0], 3000));
+    let socket_addr = SocketAddr::from(([0, 0, 0, 0], port));
     let server_fut = axum::Server::bind(&socket_addr).serve(router.into_make_service());
 
     let long_polling_fut = (move || async move {
