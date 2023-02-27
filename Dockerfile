@@ -4,7 +4,7 @@ RUN apk update
 RUN apk add --no-cache musl-dev
 
 WORKDIR /app
-RUN CARGO_NET_GIT_FETCH_WITH_CLI=true cargo install cargo-chef@0.1.51 --locked
+RUN CARGO_NET_GIT_FETCH_WITH_CLI=true cargo install cargo-chef --locked
 
 FROM chef AS planner
 
