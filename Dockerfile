@@ -1,7 +1,7 @@
 FROM --platform=${TARGETARCH} rust:1.67.1-alpine3.17 AS chef
 
 RUN apk update
-RUN apk add --no-cache musl-dev
+RUN apk add --no-cache musl-dev git
 
 WORKDIR /app
 RUN CARGO_NET_GIT_FETCH_WITH_CLI=true cargo install cargo-chef --locked
